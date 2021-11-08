@@ -20,7 +20,7 @@ import br.org.generation.lojagames.repository.CategoriaRepository;
 
 @RestController
 @RequestMapping ("/categorias")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriaController {
 	
 	@Autowired
