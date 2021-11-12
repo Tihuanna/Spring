@@ -1,5 +1,6 @@
 package br.org.generation.lojagames.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,48 +21,41 @@ import org.springframework.web.bind.annotation.RestController;
 import br.org.generation.lojagames.model.Produto;
 import br.org.generation.lojagames.repository.ProdutoRepository;
 
-	@RestController
-	@RequestMapping("/produtos")
+@RestController
+	@RequestMapping("/produto")
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public class ProdutoController {
-
+		
 		@Autowired
 		private ProdutoRepository produtoRepository;
 		
 		@GetMapping
 		public ResponseEntity<List<Produto>> getAll(){
 			return ResponseEntity.ok(produtoRepository.findAll());
-			//select * from tb_produtos;
 		}
 		
 		@GetMapping("/{id}")
 		public ResponseEntity<Produto> getById(@PathVariable long id){
 			return produtoRepository.findById(id)
-					.map(resposta -> ResponseEntity.ok(resposta))  
-					.orElse(ResponseEntity.notFound().build());	  
-				// select * from tb_produtos where id = 1;
+				.map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.notFound().build());
 		}
 		
 		@GetMapping("/nome/{nome}")
 		public ResponseEntity<List<Produto>> getByNome(@PathVariable String nome){
 			return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoreCase(nome));
-			//trazer todo o conteúdo de acordo com a busca pelo nome do produto
 		}
 		
 		@PostMapping
-		public ResponseEntity<Produto> postProduto(@Valid @RequestBody Produto produto){
+		public ResponseEntity<Produto> postProduto(@RequestBody @Valid Produto produto){
 			return ResponseEntity.status(HttpStatus.CREATED).body(produtoRepository.save(produto));
 		}
 		
 		@PutMapping
-		public ResponseEntity<Produto> putProduto(@Valid @RequestBody Produto produto){
+		public ResponseEntity<Produto> putProduto(@RequestBody @Valid Produto produto){
 			return produtoRepository.findById(produto.getId())
-					.map(resposta -> {
-						Produto updateProduto = produtoRepository.save(produto);
-						return ResponseEntity.ok().body(updateProduto);			
-					})
+					.map(resposta -> ResponseEntity.ok(produtoRepository.save(produto)))
 					.orElse(ResponseEntity.notFound().build());
-			// faz a atualização 
 		}
 		
 		@DeleteMapping("/{id}")
@@ -69,12 +63,20 @@ import br.org.generation.lojagames.repository.ProdutoRepository;
 			return produtoRepository.findById(id)
 					.map(resposta -> {
 						produtoRepository.deleteById(id);
-						return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+						return ResponseEntity.ok().build();
 					})
 					.orElse(ResponseEntity.notFound().build());
-			// deleta pelo id
+		}
+		
+		@GetMapping("/preco_maior/{preco}")
+		public ResponseEntity<List<Produto>> getPrecoMaiorQue(@PathVariable BigDecimal preco){ 
+			return ResponseEntity.ok(produtoRepository.findByPrecoGreaterThanOrderByPreco(preco));
+		}
+		
+		@GetMapping("/preco_menor/{preco}")
+		public ResponseEntity<List<Produto>> getPrecoMenorQue(@PathVariable BigDecimal preco){ 
+			return ResponseEntity.ok(produtoRepository.findByPrecoLessThanOrderByPrecoDesc(preco));
 		}
 	}
 
-		
 
