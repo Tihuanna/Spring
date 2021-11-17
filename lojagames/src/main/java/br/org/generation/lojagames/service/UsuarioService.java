@@ -1,6 +1,8 @@
 package br.org.generation.lojagames.service;
 
 import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
 import org.apache.commons.codec.binary.Base64;
@@ -25,6 +27,7 @@ public class UsuarioService {
 		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
 			throw new ResponseStatusException(
 						HttpStatus.BAD_REQUEST, "O Usuário já existe!", null);
+		
 		
 		usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
@@ -88,11 +91,5 @@ public class UsuarioService {
 		byte[] tokenBase64 = Base64.encodeBase64(token.getBytes(Charset.forName("US-ASCII")));
 		return "Basic " + new String(tokenBase64);
 
-	}
-	
-	private int calcularIdade(LocalDate dataNascimento) {
-		
-		return Period.between(dataNascimento,)
-		
 	}
 }

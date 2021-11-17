@@ -23,12 +23,12 @@ public class Postagem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull(message = "O atributo título é obrigatório!!")
-	@Size (min = 5, max = 100, message = "O atributo texto deve conter entre 5 a 100 caracteres!!")
+	@NotNull(message = "O atributo título é obrigatório")
+	@Size (min = 5, max = 100, message = "O atributo texto deve conter entre 5 a 100 caracteres")
 	private String titulo;
 	
-	@NotNull(message = "O atributo título é obrigatório!!")
-	@Size (min = 5, max = 1000, message = "O texto deve conter no minimo 10 e no maximo 1000 caracteres!!")
+	@NotNull(message = "O atributo título é obrigatório")
+	@Size (min = 5, max = 1000, message = "O texto deve conter no minimo 10 e no maximo 1000 caracteres")
 	private String texto;
 	
 	@Temporal(TemporalType.TIMESTAMP)
