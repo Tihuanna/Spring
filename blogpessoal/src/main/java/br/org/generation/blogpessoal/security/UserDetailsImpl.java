@@ -20,7 +20,8 @@ public class UserDetailsImpl implements UserDetails {
 		this.password = usuario.getSenha();
 	}
 
-	public UserDetailsImpl() {	}
+	public UserDetailsImpl() {
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -38,7 +39,6 @@ public class UserDetailsImpl implements UserDetails {
 		return userName;
 	}
 
-
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -48,6 +48,7 @@ public class UserDetailsImpl implements UserDetails {
 	public boolean isAccountNonLocked() {
 		return true;
 	}
+
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;

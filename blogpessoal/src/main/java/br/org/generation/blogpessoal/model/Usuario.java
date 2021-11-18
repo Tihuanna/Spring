@@ -16,6 +16,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "tb_usuarios")
 public class Usuario {
@@ -24,14 +26,15 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@NotNull(message = "O atributo Nome é Obrigatório")
+	@NotNull(message = "O atributo Nome é Obrigatório!")
 	private String nome;
-
-	@NotNull(message = "O atributo Usuário é Obrigatório")
-	@Email(message = "O atributo Usuário deve ser um email")
+	
+	@ApiModelProperty(example = "email@email.com.br")
+	@NotNull(message = "O atributo Usuário é Obrigatório!")
+	@Email(message = "O atributo Usuário deve ser um email!")
 	private String usuario;
 
-	@NotBlank(message = "O atributo Senha é Obrigatória")
+	@NotBlank(message = "O atributo Senha é Obrigatória!")
 	@Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
 	private String senha;
 	
@@ -39,6 +42,11 @@ public class Usuario {
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
 
+	/**
+	 * Construtor com atributos da Classe Usuario
+	 * 
+	 *  *** Não adicionar o atributo postagem ***
+	 */
 	public Usuario(long id, String nome, String usuario, String senha) {
 		
 		this.id = id;
@@ -48,6 +56,11 @@ public class Usuario {
 		
 	}
 
+	/**
+	 * Construtor sem atributos da Classe Usuario
+	 * 
+	 * Será utilizado para gerar Objetos Nulos
+	 */
 	public Usuario() { }
 	
 
